@@ -1,0 +1,180 @@
+/* Variables globales */
+:root {
+    --main-bg-color: #f5f7fa; /* Fondo claro y moderno */
+    --main-text-color: #333;
+    --primary-color: #5c67f2; /* Azul violeta */
+    --secondary-color: #3a3f91; /* Azul más oscuro */
+    --accent-color: #f25c7f; /* Rosa coral para acentos */
+    --font-size-base: 16px;
+    --border-radius: 10px; /* Bordes más redondeados */
+    --transition-time: 0.4s; /* Transiciones más suaves */
+    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra moderna */
+}
+
+/* Estilos Generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 20px;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
+    line-height: 1.8;
+    font-size: var(--font-size-base);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    transition: background-color var(--transition-time);
+}
+
+/* Efecto de transición en el body */
+body:hover {
+    background-color: #edf0f8;
+}
+
+/* Título principal */
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 3rem; /* Tamaño aumentado */
+    text-shadow: 2px 2px 6px rgba(92, 103, 242, 0.4); /* Sombra suave de color */
+    margin-bottom: 30px;
+    letter-spacing: 0.08em;
+    transition: transform var(--transition-time);
+}
+
+/* Efecto de transformación en el h1 */
+h1:hover {
+    transform: scale(1.05); /* Agrandamiento suave */
+}
+
+/* Etiquetas */
+label {
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--main-text-color);
+}
+
+/* Inputs y selects */
+input, select {
+    margin-bottom: 15px;
+    padding: 12px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    transition: border-color var(--transition-time), box-shadow var(--transition-time), transform var(--transition-time);
+}
+
+input:focus, select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 10px rgba(242, 92, 127, 0.5); /* Sombra de foco en color coral */
+    transform: scale(1.02); /* Pequeña ampliación al enfocar */
+}
+
+/* Botones */
+button {
+    padding: 12px 20px;
+    margin: 10px 0;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color var(--transition-time), transform 0.3s;
+    font-size: 1.1rem;
+    box-shadow: var(--box-shadow);
+}
+
+button:hover {
+    background-color: var(--accent-color); /* Cambia a rosa coral */
+    transform: translateY(-3px); /* Efecto de elevación */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-time), box-shadow var(--transition-time);
+}
+
+table:hover {
+    transform: scale(1.01); /* Leve ampliación al pasar el mouse */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Mayor sombra */
+}
+
+table, th, td {
+    border: 1px solid var(--primary-color);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1rem;
+}
+
+th {
+    background-color: var(--secondary-color);
+    color: white;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+/* Tabla de Resumen en el Cierre de Caja */
+.summary-table {
+    margin-top: 20px;
+}
+
+.summary-table th, .summary-table td {
+    padding: 12px;
+}
+
+/* Estilos para títulos de secciones */
+.section-title {
+    margin-top: 20px;
+    color: var(--main-text-color);
+    font-size: 1.7rem; /* Aumentar el tamaño */
+    border-bottom: 3px solid var(--primary-color);
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color var(--transition-time), border-color var(--transition-time);
+}
+
+.section-title:hover {
+    color: var(--accent-color); /* Cambia a rosa coral al pasar el mouse */
+    border-color: var(--accent-color);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    body {
+        margin: 10px;
+    }
+
+    input, select, label {
+        width: 100%; 
+    }
+
+    button {
+        width: 100%; 
+    }
+
+    table, th, td {
+        font-size: 0.9rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+    }
+}
