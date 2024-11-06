@@ -1,14 +1,15 @@
 /* Variables globales */
 :root {
-    --main-bg-color: #f5f7fa; /* Fondo claro y moderno */
-    --main-text-color: #333;
-    --primary-color: #5c67f2; /* Azul violeta */
-    --secondary-color: #3a3f91; /* Azul más oscuro */
-    --accent-color: #f25c7f; /* Rosa coral para acentos */
+    --main-bg-color: #fce0e0; /* Fondo rosado suave */
+    --main-text-color: #6c4f4f; /* Color de texto oscuro pero suave */
+    --primary-color: #f0568e; /* Rosa fuerte */
+    --secondary-color: #f9c0d7; /* Rosa pastel suave */
+    --accent-color: #ff80b3; /* Rosa brillante para acentos */
+    --danger-color: #f44336; /* Rojo para el botón de borrar */
     --font-size-base: 16px;
-    --border-radius: 10px; /* Bordes más redondeados */
+    --border-radius: 12px; /* Bordes más redondeados */
     --transition-time: 0.4s; /* Transiciones más suaves */
-    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra moderna */
+    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
 }
 
 /* Estilos Generales */
@@ -27,7 +28,7 @@ body {
 
 /* Efecto de transición en el body */
 body:hover {
-    background-color: #edf0f8;
+    background-color: #ffe0f0; /* Fondo más suave */
 }
 
 /* Título principal */
@@ -35,7 +36,7 @@ h1 {
     text-align: center;
     color: var(--primary-color);
     font-size: 3rem; /* Tamaño aumentado */
-    text-shadow: 2px 2px 6px rgba(92, 103, 242, 0.4); /* Sombra suave de color */
+    text-shadow: 2px 2px 6px rgba(242, 92, 127, 0.4); /* Sombra suave de color rosa */
     margin-bottom: 30px;
     letter-spacing: 0.08em;
     transition: transform var(--transition-time);
@@ -70,8 +71,8 @@ input, select {
 input:focus, select:focus {
     border-color: var(--accent-color);
     outline: none;
-    box-shadow: 0 0 10px rgba(242, 92, 127, 0.5); /* Sombra de foco en color coral */
-    transform: scale(1.02); /* Pequeña ampliación al enfocar */
+    box-shadow: 0 0 10px rgba(242, 92, 127, 0.5); /* Sombra de foco en rosa suave */
+    transform: scale(1.02); /* Leve ampliación al enfocar */
 }
 
 /* Botones */
@@ -83,19 +84,30 @@ button {
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color var(--transition-time), transform 0.3s;
+    transition: background-color var(--transition-time), transform 0.3s, box-shadow 0.3s;
     font-size: 1.1rem;
     box-shadow: var(--box-shadow);
 }
 
 button:hover {
-    background-color: var(--accent-color); /* Cambia a rosa coral */
+    background-color: var(--accent-color); /* Cambia a rosa suave */
     transform: translateY(-3px); /* Efecto de elevación */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
 }
 
 button:active {
     transform: translateY(0);
+}
+
+/* Botón de Borrar todos los datos */
+button.delete {
+    background-color: var(--danger-color); /* Rojo para el botón de borrar */
+    color: white;
+}
+
+button.delete:hover {
+    background-color: #e53935; /* Rojo más intenso en hover */
+    transform: translateY(-3px);
 }
 
 /* Tablas */
@@ -152,7 +164,7 @@ th {
 }
 
 .section-title:hover {
-    color: var(--accent-color); /* Cambia a rosa coral al pasar el mouse */
+    color: var(--accent-color); /* Cambia a rosa suave al pasar el mouse */
     border-color: var(--accent-color);
 }
 
@@ -163,11 +175,11 @@ th {
     }
 
     input, select, label {
-        width: 100%; 
+        width: 100%;
     }
 
     button {
-        width: 100%; 
+        width: 100%;
     }
 
     table, th, td {
@@ -177,4 +189,23 @@ th {
     h1 {
         font-size: 2.5rem;
     }
+}
+
+/* Botón "Borrar todos los datos" en rojo */
+button.danger {
+    background-color: var(--danger-color); /* Rojo */
+}
+
+/* Efecto de sombra suave al pasar el ratón */
+input:focus, select:focus, button:hover, .section-title:hover {
+    box-shadow: 0 0 15px rgba(255, 128, 179, 0.8); /* Sombra más suave y más intensa */
+}
+
+/* Efectos adicionales */
+button, input, select {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+button:hover, .section-title:hover {
+    transform: scale(1.05); /* Leve ampliación */
 }

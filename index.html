@@ -45,6 +45,7 @@
             <select id="operationType" tabindex="4">
                 <option value="Ajuste">Ajuste</option>
                 <option value="Ausente">Ausente</option>
+                <option value="A favor">A favor</option>
                 <option value="Armado sup / inf">Armado sup / inf</option>
                 <option value="Arreglo">Arreglo</option>
                 <option value="Aparato de ortopedia">Aparato de ortopedia</option>
@@ -128,7 +129,7 @@
         
         <div class="button-group">
             <button id="delete-expense">Borrar Gasto Específico</button>
-            <button id="clear-withdrawals">Borrar Todos los Retiros</button>
+            <button id="clear-withdrawals" >Borrar Todos los Retiros</button>
         </div>
 
 
@@ -145,7 +146,7 @@
             <button id="view-expenses-withdrawals" tabindex="14">Ver Gastos y Retiros</button>
             <button id="sumValues" tabindex="15">Total pacientes y honorarios</button>
             <button id="cierreDeCaja" tabindex="16">Cierre de Caja</button>
-            <button id="clearData" tabindex="17">Borrar todos los datos</button>
+            <button id="clearData" tabindex="17" class="danger">Borrar todos los datos</button>
         </div>
 
         <table id="patientTable">
@@ -162,6 +163,12 @@
             </tbody>
         </table>
     </main>
+
+    <label for="commissionCount">Buscar comisión repetida:</label>
+    <input type="number" id="commissionCount" placeholder="Ingrese la comisión">
+    <button id="searchCommission">Buscar</button>
+    <div id="commissionResult"></div>
+    
 
     <script src="script.js"></script>
 </body>

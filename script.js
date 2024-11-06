@@ -433,6 +433,29 @@ document.getElementById('clear-withdrawals').addEventListener('click', function(
 });
 
 
+document.getElementById('searchCommission').addEventListener('click', function() {
+    const commissionToFind = parseFloat(document.getElementById('commissionCount').value);
+    
+    if (!isNaN(commissionToFind)) {
+        let commissionCount = 0;
+        
+        // Filtramos las comisiones del profesional seleccionado
+        patients.forEach(patient => {
+            if (patient.commission === commissionToFind) {
+                commissionCount++;
+            }
+        });
+        
+        document.getElementById('commissionResult').textContent = 
+            `La comisión de $${commissionToFind.toFixed(2)} se repite ${commissionCount} ${commissionCount === 1 ? 'vez' : 'veces'} en ${currentProfessional}.`;
+    } else {
+        alert('Por favor ingrese un número válido.');
+    }
+});
+
+
+
+
 
 
 
