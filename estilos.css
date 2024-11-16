@@ -7,9 +7,11 @@
     --accent-color: #ff80b3; /* Rosa brillante para acentos */
     --danger-color: #f44336; /* Rojo para el botón de borrar */
     --font-size-base: 16px;
-    --border-radius: 12px; /* Bordes más redondeados */
+    --border-radius: 15px; /* Bordes más redondeados */
     --transition-time: 0.4s; /* Transiciones más suaves */
-    --box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra suave y más notoria */
+    --hover-scale: 1.05; /* Escala para hover */
+    --max-width: 1200px; /* Ancho máximo para contenedor */
 }
 
 /* Estilos Generales */
@@ -20,40 +22,59 @@ body {
     color: var(--main-text-color);
     line-height: 1.8;
     font-size: var(--font-size-base);
-    max-width: 1200px;
+    max-width: var(--max-width);
     margin: 0 auto;
     padding: 20px;
-    transition: background-color var(--transition-time);
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-time), box-shadow var(--transition-time);
+    box-shadow: var(--box-shadow);
+    animation: fadeIn 1s ease-out; /* Animación suave al cargar */
+}
+
+/* Animación de aparición */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* Efecto de transición en el body */
 body:hover {
     background-color: #ffe0f0; /* Fondo más suave */
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1); /* Sombra más suave al hover */
 }
 
 /* Título principal */
 h1 {
     text-align: center;
     color: var(--primary-color);
-    font-size: 3rem; /* Tamaño aumentado */
-    text-shadow: 2px 2px 6px rgba(242, 92, 127, 0.4); /* Sombra suave de color rosa */
+    font-size: 3.5rem; /* Tamaño aumentado */
+    text-shadow: 2px 2px 15px rgba(242, 92, 127, 0.3); /* Sombra suave */
     margin-bottom: 30px;
-    letter-spacing: 0.08em;
-    transition: transform var(--transition-time);
+    letter-spacing: 0.1em;
+    transition: transform var(--transition-time), color var(--transition-time);
 }
 
 /* Efecto de transformación en el h1 */
 h1:hover {
-    transform: scale(1.05); /* Agrandamiento suave */
+    transform: scale(var(--hover-scale)); /* Agrandamiento suave */
+    color: var(--accent-color); /* Cambio de color en hover */
 }
 
 /* Etiquetas */
 label {
     display: inline-block;
-    width: 150px;
+    width: 160px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     color: var(--main-text-color);
+    font-size: 1.1rem;
+    transition: color var(--transition-time);
 }
 
 /* Inputs y selects */
@@ -61,110 +82,140 @@ input, select {
     margin-bottom: 15px;
     padding: 12px;
     width: 100%;
-    max-width: 300px;
-    border: 1px solid var(--primary-color);
+    max-width: 250px;
+    border: 2px solid var(--primary-color);
     border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    transition: border-color var(--transition-time), box-shadow var(--transition-time), transform var(--transition-time);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all var(--transition-time);
+    font-size: 14px;
 }
 
+/* Inputs específicos para los valores y nombres de pacientes */
+input.paciente-nombre, input.paciente-valor {
+    max-width: 200px;
+}
+
+/* Efecto de enfoque para inputs */
 input:focus, select:focus {
     border-color: var(--accent-color);
-    outline: none;
-    box-shadow: 0 0 10px rgba(242, 92, 127, 0.5); /* Sombra de foco en rosa suave */
-    transform: scale(1.02); /* Leve ampliación al enfocar */
+    box-shadow: 0 0 12px rgba(255, 128, 179, 0.8);
+    outline: none; /* Eliminar el borde predeterminado de foco */
 }
 
 /* Botones */
 button {
-    padding: 12px 20px;
-    margin: 10px 0;
+    padding: 14px 24px;
+    margin: 15px 0;
     background-color: var(--primary-color);
     color: white;
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    transition: background-color var(--transition-time), transform 0.3s, box-shadow 0.3s;
+    transition: all var(--transition-time);
     font-size: 1.1rem;
-    box-shadow: var(--box-shadow);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
+/* Efecto de hover en botones */
 button:hover {
-    background-color: var(--accent-color); /* Cambia a rosa suave */
-    transform: translateY(-3px); /* Efecto de elevación */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Sombra más intensa */
+    background-color: var(--accent-color);
+    transform: translateY(-5px); /* Efecto de elevación */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
     transform: translateY(0);
 }
 
+/* Efecto en el texto del botón */
+button:after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    background-color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: all 0.4s;
+    opacity: 0;
+}
+
+button:hover:after {
+    opacity: 0.1;
+    width: 0;
+    height: 0;
+}
+
 /* Botón de Borrar todos los datos */
 button.delete {
-    background-color: var(--danger-color); /* Rojo para el botón de borrar */
+    background-color: var(--danger-color); /* Rojo */
     color: white;
 }
 
 button.delete:hover {
-    background-color: #e53935; /* Rojo más intenso en hover */
-    transform: translateY(-3px);
+    background-color: #e53935; /* Rojo más intenso */
+    transform: translateY(-5px);
 }
 
 /* Tablas */
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 30px;
     box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
     transition: transform var(--transition-time), box-shadow var(--transition-time);
 }
 
 table:hover {
-    transform: scale(1.01); /* Leve ampliación al pasar el mouse */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Mayor sombra */
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Sombra más intensa al pasar el mouse */
 }
 
 table, th, td {
-    border: 1px solid var(--primary-color);
+    border: 2px solid var(--primary-color);
 }
 
 th, td {
-    padding: 15px;
-    text-align: left;
-    font-size: 1rem;
+    padding: 16px;
+    font-size: 15px;
+    text-align: center;
+    background-color: #fff;
+    transition: background-color var(--transition-time);
 }
 
 th {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: white;
-    font-weight: bold;
-    letter-spacing: 0.05em;
 }
 
-/* Tabla de Resumen en el Cierre de Caja */
+/* Tabla de Resumen */
 .summary-table {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
 .summary-table th, .summary-table td {
-    padding: 12px;
+    padding: 16px;
 }
 
 /* Estilos para títulos de secciones */
 .section-title {
-    margin-top: 20px;
+    margin-top: 30px;
     color: var(--main-text-color);
-    font-size: 1.7rem; /* Aumentar el tamaño */
-    border-bottom: 3px solid var(--primary-color);
-    padding-bottom: 5px;
-    margin-bottom: 10px;
+    font-size: 1.8rem;
+    border-bottom: 4px solid var(--primary-color);
+    padding-bottom: 8px;
+    margin-bottom: 15px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     transition: color var(--transition-time), border-color var(--transition-time);
 }
 
 .section-title:hover {
-    color: var(--accent-color); /* Cambia a rosa suave al pasar el mouse */
+    color: var(--accent-color);
     border-color: var(--accent-color);
 }
 
@@ -187,25 +238,60 @@ th {
     }
 
     h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
     }
 }
 
-/* Botón "Borrar todos los datos" en rojo */
-button.danger {
-    background-color: var(--danger-color); /* Rojo */
+/* Estilo para los checkboxes */
+input[type="checkbox"] {
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 5px;
+    border: 2px solid var(--primary-color);
+    background-color: white;
+    position: relative;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Efecto de sombra suave al pasar el ratón */
-input:focus, select:focus, button:hover, .section-title:hover {
-    box-shadow: 0 0 15px rgba(255, 128, 179, 0.8); /* Sombra más suave y más intensa */
+/* Efecto cuando el checkbox está seleccionado */
+input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
-/* Efectos adicionales */
-button, input, select {
-    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+/* Efecto de hover */
+input[type="checkbox"]:hover {
+    border-color: var(--accent-color);
 }
 
-button:hover, .section-title:hover {
-    transform: scale(1.05); /* Leve ampliación */
+/* Agregar la tilde (check) cuando el checkbox está seleccionado */
+input[type="checkbox"]:checked::before {
+    content: '\2714'; /* Check */
+    font-size: 18px;
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    color: white;
 }
+/* Inputs específicos para los valores y nombres de pacientes */
+input.paciente-nombre, input.paciente-valor {
+    max-width: 180px; /* Reducimos el max-width para evitar que se desborden */
+    width: 100%; /* Esto asegura que el input ocupe el 100% de su contenedor */
+    box-sizing: border-box; /* Esto incluye el borde y el padding dentro del ancho */
+}
+
+/* Asegurando que los inputs se ajusten bien dentro de las celdas de la tabla */
+table td {
+    word-wrap: break-word; /* Permite que el texto o los inputs se ajusten */
+    padding: 10px; /* Espaciado dentro de las celdas */
+}
+
+table input, table select {
+    max-width: 100%; /* Evita que los inputs excedan el tamaño de la celda */
+    width: 100%; /* Se ajusta al 100% de su contenedor */
+    padding: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+

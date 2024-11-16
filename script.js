@@ -168,8 +168,8 @@ document.getElementById('cierreDeCaja').addEventListener('click', function() {
 
     // Calcular totales de la Dra. seleccionada
     const totalEfectivo = professionalPatients.reduce((acc, patient) => 
-        patient.paymentMethod === 'efectivo' ? acc + patient.value : acc, 0) + cajaChica;
-    const totalDebito = professionalPatients.reduce((acc, patient) => patient.paymentMethod === 'debito' ? acc + patient.value : acc, 0);
+        patient.paymentMethod === 'Efectivo' ? acc + patient.value : acc, 0) + cajaChica;
+    const totalDebito = professionalPatients.reduce((acc, patient) => patient.paymentMethod === 'Débito' ? acc + patient.value : acc, 0);
     const totalComisiones = professionalPatients.reduce((acc, patient) => acc + patient.commission, 0);
 
     // Calcular totales globales
@@ -181,8 +181,8 @@ document.getElementById('cierreDeCaja').addEventListener('click', function() {
         const professionalPatients = JSON.parse(localStorage.getItem(professional)) || [];
         
         const totalEfectivo = professionalPatients.reduce((acc, patient) => 
-            patient.paymentMethod === 'efectivo' ? acc + patient.value : acc, 0) + cajaChica;
-        const totalDebito = professionalPatients.reduce((acc, patient) => patient.paymentMethod === 'debito' ? acc + patient.value : acc, 0);
+            patient.paymentMethod === 'Efectivo' ? acc + patient.value : acc, 0) + cajaChica;
+        const totalDebito = professionalPatients.reduce((acc, patient) => patient.paymentMethod === 'Débito' ? acc + patient.value : acc, 0);
 
         // Sumar al total global
         totalEfectivoGlobal += totalEfectivo;
@@ -202,114 +202,202 @@ document.getElementById('cierreDeCaja').addEventListener('click', function() {
     // Crear la nueva ventana con todos los datos
     const newWindow = window.open('', '_blank');
     newWindow.document.write(`
-        <html>
-        <head>
-            <title>Cierre de Caja ${cierreFecha}</title>
-            <style>
-                body { font-family: Arial, sans-serif; background-color: #ffffff; color: #000000; font-size: 12px; }
-                table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-                th, td { border: 1px solid black; padding: 5px; text-align: left; }
-                th { background-color: #ffffff; color: #000000; }
-                h1, h2, h3 { color: #000000; margin: 0; padding: 5px 0; }
-                .summary-table { margin-top: 10px; }
-                .summary-table th, .summary-table td { border: 1px solid black; padding: 5px; text-align: left; }
-                .summary-table th { background-color: #ffffff; color: #000000; }
-                .horizontal-table { border-collapse: collapse; margin-top: 10px; }
-                .horizontal-table td, .horizontal-table th { border: 1px solid black; padding: 5px; text-align: center; }
-                .horizontal-table th { background-color: #ffffff; color: #000000; }
-                .horizontal-table td { background-color: #f2f2f2; }
-            </style>
-        </head>
-        <body>
-            <h1>Cierre de Caja ${cierreFecha}</h1>
-
-            <h2>Resumen de ${currentProfessional}</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Operación</th>
-                        <th>Valor</th>
-                        <th>Forma de Pago</th>
-                        <th>Comisión</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${professionalPatients.map(patient => `
+  <html>
+    <head>
+        <title>Cierre de Caja ${cierreFecha}</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #ffffff;
+                color: #000000; /* Texto en negro en todo el documento */
+                font-size: 12px;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Sombra más marcada */
+            }
+            th, td {
+                border: 3px solid #000000; /* Bordes negros más gruesos */
+                padding: 12px; /* Más espacio en las celdas */
+                text-align: left;
+                font-size: 14px; /* Aumentamos el tamaño de fuente */
+                transition: background-color 0.3s ease;
+            }
+            th {
+                background-color: #f1f1f1; /* Fondo gris claro para los encabezados */
+                color: #000000; /* Texto negro */
+                font-weight: bold;
+                text-transform: uppercase; /* Mayúsculas para los títulos */
+            }
+            td {
+                background-color: #ffffff; /* Fondo blanco para las celdas */
+            }
+            tr:nth-child(even) td {
+                background-color: #f9f9f9; /* Color alterno en las filas (más visible) */
+            }
+            tr:nth-child(odd) td {
+                background-color: #ffffff; /* Fondo blanco para filas impares */
+            }
+            tr:hover td {
+                background-color: #eaeaea; /* Color de fondo al pasar el mouse */
+            }
+            h1 {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                text-transform: uppercase;
+                color: #000000; /* Texto en negro */
+                margin: 0;
+                padding: 5px 0;
+                font-size: 18px; /* Aumenta el tamaño del título */
+                font-weight: bold;
+            }
+            .date {
+                font-size: 16px; /* Aumenta el tamaño de la fecha */
+                font-weight: bold;
+                color: #333333; /* Color más suave para diferenciarla del título */
+            }
+            h2 {
+                text-transform: uppercase;
+                color: #000000; /* Texto negro */
+                margin: 0;
+                padding: 5px 0;
+                font-size: 16px;
+                font-weight: bold;
+                text-align: center;
+            }
+            .flex-container {
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .patients-container {
+                flex: 3;
+                min-width: 60%;
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+            .side-container {
+                flex: 1;
+                min-width: 30%;
+                border: 1px solid #ccc;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>
+            Cierre de Caja
+            <span class="date">${cierreFecha}</span>
+        </h1>
+        <div class="flex-container">
+            <!-- Tabla de pacientes -->
+            <div class="patients-container">
+                <h2>Resumen de ${currentProfessional}</h2>
+                <table>
+                    <thead>
                         <tr>
-                            <td>${patient.name}</td>
-                            <td>${patient.operation}</td>
-                            <td>${patient.value}</td>
-                            <td>${patient.paymentMethod}</td>
-                            <td>${patient.commission}</td>
+                            <th>Nombre</th>
+                            <th>Operación</th>
+                            <th>Valor</th>
+                            <th>Forma de Pago</th>
+                            <th>Comisión</th>
                         </tr>
-                    `).join('')}
-                </tbody>
-            </table>
-
-            <h2>Resumen de Gastos</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Descripción</th>
-                    <th>Monto</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${expenses.map(expense => `
-                    <tr>
-                        <td>${expense.description}</td>
-                        <td>$${expense.amount.toFixed(2)}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-
-            <h2>Totales de ${currentProfessional}</h2>
-            <table class="horizontal-table">
-                <tr>
-                    <th>Total en Efectivo</th>
-                    <th>Total en Débito</th>
-                    <th>Total de Comisiones</th>
-                </tr>
-                <tr>
-                    <td>$${totalEfectivo}</td>
-                    <td>$${totalDebito}</td>
-                    <td>$${totalComisiones}</td>
-                </tr>
-            </table>
-
-            <h2>Totales Globales</h2>
-            <table class="summary-table">
-                <tr>
-                    <th>Total en Efectivo (Todos los Profesionales):</th>
-                    <td>$${totalEfectivoGlobal}</td>
-                </tr>
-                <tr>
-                    <th>Total en Débito (Todos los Profesionales):</th>
-                    <td>$${totalDebitoGlobal}</td>
-                </tr>
-                <tr>
-                    <th>Total de Gastos:</th>
-                    <td>$${totalGastos}</td>
-                </tr>
-                <tr>
-                    <th>Total de Retiros:</th>
-                    <td>$${totalRetiros}</td>
-                </tr>
-                <tr>
-                    <th>Total de Comisiones de Profesionales:</th>
-                    <td>$${totalComisionesGlobales}</td>
-                </tr>
-                <tr>
-                    <th>Total:</th>
-                    <td>$${totalGlobal}</td>
-                </tr>
-            </table>
-        </body>
-        </html>
+                    </thead>
+                    <tbody>
+                        ${professionalPatients.map(patient => `
+                            <tr>
+                                <td>${patient.name}</td>
+                                <td>${patient.operation}</td>
+                                <td>${patient.value}</td>
+                                <td>${patient.paymentMethod}</td>
+                                <td>${patient.commission}</td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+            <!-- Contenedor lateral -->
+            <div class="side-container">
+                <!-- Tabla de gastos -->
+                <div class="expenses-container">
+                    <h2>Resumen de Gastos</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Descripción</th>
+                                <th>Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${expenses.map(expense => ` 
+                                <tr>
+                                    <td>${expense.description}</td>
+                                    <td>$${expense.amount.toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Tabla de totales del profesional -->
+                <div class="totales-profesional">
+                    <h2>Totales de ${currentProfessional}</h2>
+                    <table>
+                        <tr>
+                            <th>Total en Efectivo</th>
+                            <th>Total en Débito</th>
+                            <th>Total de Comisiones</th>
+                        </tr>
+                        <tr>
+                            <td>$${totalEfectivo}</td>
+                            <td>$${totalDebito}</td>
+                            <td>$${totalComisiones}</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- Tabla de totales globales -->
+                <div class="totales-globales">
+                    <h2>Totales Globales</h2>
+                    <table>
+                        <tr>
+                            <th>Total en Efectivo (Todos los Profesionales):</th>
+                            <td>$${totalEfectivoGlobal}</td>
+                        </tr>
+                        <tr>
+                            <th>Total en Débito (Todos los Profesionales):</th>
+                            <td>$${totalDebitoGlobal}</td>
+                        </tr>
+                        <tr>
+                            <th>Total de Gastos:</th>
+                            <td>$${totalGastos}</td>
+                        </tr>
+                        <tr>
+                            <th>Total de Retiros:</th>
+                            <td>$${totalRetiros}</td>
+                        </tr>
+                        <tr>
+                            <th>Total de Comisiones de Profesionales:</th>
+                            <td>$${totalComisionesGlobales}</td>
+                        </tr>
+                        <tr>
+                            <th>Total:</th>
+                            <td>$${totalGlobal}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
     `);
 });
+
 
 // Función para borrar todos los datos de localStorage
 document.getElementById('clearData').addEventListener('click', function() {
@@ -359,6 +447,7 @@ document.getElementById('saveCajaChica').addEventListener('click', function() {
     }
 });
 
+// Mostrar Pacientes en la Tabla
 function renderPatients() {
     const tbody = document.getElementById('patientTable').getElementsByTagName('tbody')[0];
     tbody.innerHTML = ''; // Limpiar tabla
@@ -376,21 +465,114 @@ function renderPatients() {
     for (const [name, operations] of Object.entries(groupedPatients)) {
         operations.forEach((operation, index) => {
             const row = tbody.insertRow();
-            // Solo mostrar el nombre una vez
-            row.insertCell(0).textContent = (index === 0) ? name : ''; // Mostrar nombre solo en la primera operación
-            row.insertCell(1).textContent = operation.operation || ''; // Mostrar operación
-            row.insertCell(2).textContent = operation.value.toFixed(2); // Mostrar valor con dos decimales
-            row.insertCell(3).textContent = operation.paymentMethod || ''; // Mostrar forma de pago
-            row.insertCell(4).textContent = operation.commission.toFixed(2); // Mostrar comisión con dos decimales
-            
+
+            // Insertar un checkbox antes del nombre
+            const checkboxCell = row.insertCell(0);
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox'; // Hacer que el checkbox sea seleccionable
+            checkboxCell.appendChild(checkbox);
+
+            // Mostrar nombre
+            const nameCell = row.insertCell(1);
+            const nameInput = document.createElement('input');
+            nameInput.value = (index === 0) ? name : ''; // Mostrar nombre solo en la primera operación
+            nameInput.disabled = true; // Inicialmente deshabilitado
+            nameInput.classList.add('editable-name'); // Añadir clase para identificar
+            nameCell.appendChild(nameInput);
+
+            // Mostrar operación
+            row.insertCell(2).textContent = operation.operation || ''; // Mostrar operación
+
+            // Mostrar valor editable
+            const valueCell = row.insertCell(3);
+            const valueInput = document.createElement('input');
+            valueInput.value = operation.value.toFixed(2); // Mostrar valor con dos decimales
+            valueInput.disabled = true; // Inicialmente deshabilitado
+            valueInput.classList.add('editable-value'); // Añadir clase para identificar
+            valueCell.appendChild(valueInput);
+
+            // Mostrar forma de pago (editable)
+            const paymentCell = row.insertCell(4);
+            const paymentDisplay = document.createElement('span');
+            paymentDisplay.textContent = operation.paymentMethod || 'Efectivo'; // Mostrar 'Efectivo' o 'Débito'
+            paymentCell.appendChild(paymentDisplay);
+
+            // Hacer que el valor sea editable al hacer clic en el texto
+            paymentDisplay.onclick = () => togglePaymentMethod(operation, paymentDisplay);
+
+            // Mostrar comisión
+            row.insertCell(5).textContent = operation.commission.toFixed(2); // Mostrar comisión con dos decimales
+
+            // Crear botón de "Editar"
+            const editButton = document.createElement('button');
+            editButton.textContent = 'Editar'; // Cambiar a 'Editar'
+            editButton.onclick = () => toggleEditMode(row, operations, nameInput, valueInput); // Llamar a la función de habilitar edición
+            row.insertCell(6).appendChild(editButton); // Agregar botón a la celda
+
             // Crear botón para borrar operación
             const deleteButton = document.createElement('button');
             deleteButton.textContent = 'Borrar'; // Cambiar a 'Borrar'
             deleteButton.onclick = () => deleteOperation(patients.indexOf(operation)); // Asociar acción de borrar
-            row.insertCell(5).appendChild(deleteButton); // Agregar botón a la celda
+            row.insertCell(7).appendChild(deleteButton); // Agregar botón a la celda
         });
     }
 }
+
+// Función para cambiar entre Efectivo y Débito
+function togglePaymentMethod(operation, paymentDisplay) {
+    if (paymentDisplay.textContent === 'Efectivo') {
+        paymentDisplay.textContent = 'Débito'; // Con tilde
+        operation.paymentMethod = 'Débito'; // Guardar en la operación
+    } else {
+        paymentDisplay.textContent = 'Efectivo';
+        operation.paymentMethod = 'Efectivo'; // Guardar en la operación
+    }
+
+
+
+    // Guardar los cambios en localStorage
+    localStorage.setItem(currentProfessional, JSON.stringify(patients));
+}
+
+// Función para habilitar/deshabilitar los campos de nombre y valor
+function toggleEditMode(row, operations, nameInput, valueInput) {
+    // Cambiar el estado de los campos de texto
+    if (nameInput.disabled) {
+        nameInput.disabled = false;
+        valueInput.disabled = false;
+        row.getElementsByTagName('button')[0].textContent = 'Guardar'; // Cambiar texto del botón a "Guardar"
+    } else {
+        // Si se guarda, actualizar los valores
+        const newName = nameInput.value;
+        const newValue = parseFloat(valueInput.value);
+
+        if (newName !== operations[0].name) {
+            operations.forEach(op => op.name = newName); // Actualizar el nombre de todos los registros
+        }
+
+        if (newValue !== operations[0].value) {
+            operations.forEach(op => op.value = newValue); // Actualizar el valor de todos los registros
+        }
+
+        // Guardar cambios en localStorage
+        localStorage.setItem(currentProfessional, JSON.stringify(patients));
+
+        // Cambiar el estado de los campos
+        nameInput.disabled = true;
+        valueInput.disabled = true;
+        row.getElementsByTagName('button')[0].textContent = 'Editar'; // Cambiar texto del botón a "Editar"
+    }
+}
+
+// Función para borrar una operación
+function deleteOperation(index) {
+    patients.splice(index, 1); // Eliminar la operación del array
+    localStorage.setItem(currentProfessional, JSON.stringify(patients)); // Guardar cambios en localStorage
+    renderPatients(); // Volver a renderizar la tabla
+}
+
+
+
 
 
 function deleteOperation(patientIndex) {
