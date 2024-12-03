@@ -35,85 +35,26 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="patientName">Nombre del Paciente:</label>
-            <input type="text" id="patientName" tabindex="3">
-        </div>
 
-        <div class="form-group">
-            <label for="operationType">Ortodoncia u Odontología</label>
-            <select id="operationType" tabindex="4">
-                <option value="Ajuste">Ajuste</option>
-                <option value="Ausente">Ausente</option>
-                <option value="A favor">A favor</option>
-                <option value="Armado sup / inf">Armado sup / inf</option>
-                <option value="Arreglo">Arreglo</option>
-                <option value="Aparato de ortopedia">Aparato de ortopedia</option>
-                <option value="Brackets metalicos">Brackets metalicos</option>
-                <option value="Brackets ceramicos">Brackets ceramicos</option>
-                <option value="Brackets Slim">Brackets Slim</option>
-                <option value="Brackets Zafiro">Brackets Zafiro</option>
-                <option value="Brackets Autoligables metalicos">Brackets Autoligables metalicos</option>
-                <option value="Bucodental">Bucodental</option>
-                <option value="Blanqueamiento">Blanqueamiento</option>
-                <option value="Bandas Intermaxilares">Bandas Intermaxilares</option>
-                <option value="Control Metálicos">Control Metálicos</option>
-                <option value="Control Cerámicos">Control Cerámicos</option>
-                <option value="Control Zafiro/autoligable">Control Zafiro/autoligable</option>
-                <option value="Control Ortopedia">Control Ortopedia</option>
-                <option value="Control tratamiento abandonado">Control tratamiento abandonado</option>
-                <option value="contencion fija">Contención Fija</option>
-                <option value="contencion removible">Contención Removible</option>
-                <option value="Corona">Corona</option>
-                <option value="Cementado de corona">Cementado de Corona</option>
-                <option value="Destape Implante">Destape Implante</option>
-                <option value="Extracción">Extracción</option>
-                <option value="Endodoncia">Endodoncia</option>
-                <option value="Implante">Implante</option>
-                <option value="Limpieza Inferior/superior">Limpieza Inferior/superior</option>
-                <option value="Limpieza completa">Limpieza completa</option>
-                <option value="Primera consulta">Primera consulta</option>
-                <option value="pagó parte efectivo">pagó parte efectivo</option>
-                <option value="pagó parte débito">pagó parte débito</option>
-                <option value="pagó debia">pagó debia</option>
-                <option value="pagó cuota">pagó cuota</option>
-                <option value="Protesis">Protesis</option>
-                <option value="Placa de bruxismo">Placa de bruxismo</option>
-                <option value="Retiro Inf/sup">Retiro Inf/sup</option>
-                <option value="Retiro completo">Retiro completo</option>
-                
-                <option value="Reposición Metálica">Reposición Metálica</option>
-                <option value="Reposicion Cerámica">Reposicion Cerámica</option>
-                <option value="Reposicion zafiro">Reposicion zafiro</option>
-                <option value="Reposicion Slim">Reposicion Slim</option>
-                <option value="Reposición tubo">Reposición tubo</option>
-                <option value="Reposición botón">Reposición botón</option>
-                <option value="Radiografia periapical">Radiografia periapical</option>
-                <option value="TDI">TDI</option>
-                <option value="Urgencia">Urgencia</option> 
-                <option value="Ya abonó adelantado">Ya abonó adelantado</option>           
-            </select>
-        </div>
         
 
-
-        <div class="form-group">
-            <label for="operationValue">Valor:</label>
-            <input type="number" id="operationValue" tabindex="5">
-        </div>
-
-        <div class="form-group">
-            <label for="paymentMethod">Forma de Pago:</label>
-            <select id="paymentMethod" tabindex="6">
-                <option value="efectivo">Efectivo</option>
-                <option value="debito">Débito</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="commission">Comisión:</label>
-            <input type="number" id="commission" tabindex="7">
-        </div>
+        <table id="patientTable">
+            <thead>
+                <tr> </th>
+                    <th>Nombre</th>
+                    <th>Operación</th>
+                    <th>Valor</th>
+                    <th>Forma de Pago</th>
+                    <th>Comisión</th>
+                    <th>editar</th>
+                    <th>borrar</th>
+                    
+                    
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
 
         <div class="button-group">
             <button id="addPatient" tabindex="8">Agregar Paciente</button>
@@ -149,24 +90,6 @@
             <button id="cierreDeCaja" tabindex="16">Cierre de Caja</button>
             <button id="clearData" tabindex="17" class="danger">Borrar todos los datos</button>
         </div>
-
-        <table id="patientTable">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Nombre</th>
-                    <th>Operación</th>
-                    <th>Valor</th>
-                    <th>Forma de Pago</th>
-                    <th>Comisión</th>
-                    <th>editar</th>
-                    <th>borrar</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </main>
 
     <label for="commissionCount">Buscar comisión repetida:</label>
@@ -175,6 +98,89 @@
     <div id="commissionResult"></div>
     
     
+
+    <div class="form-group">
+        <label for="patientName">Nombre del Paciente:</label>
+        <input type="text" id="patientName" tabindex="3">
+    </div>
+
+    <div class="form-group">
+        <label for="operationType">Ortodoncia u Odontología</label>
+        <select id="operationType" tabindex="4">
+            <option value="Ajuste">Ajuste</option>
+            <option value="Ausente">Ausente</option>
+            <option value="A favor">A favor</option>
+            <option value="Armado sup / inf">Armado sup / inf</option>
+            <option value="Arreglo">Arreglo</option>
+            <option value="Aparato de ortopedia">Aparato de ortopedia</option>
+            <option value="Brackets metalicos">Brackets metalicos</option>
+            <option value="Brackets ceramicos">Brackets ceramicos</option>
+            <option value="Brackets Slim">Brackets Slim</option>
+            <option value="Brackets Zafiro">Brackets Zafiro</option>
+            <option value="Brackets Autoligables metalicos">Brackets Autoligables metalicos</option>
+            <option value="Bucodental">Bucodental</option>
+            <option value="Blanqueamiento">Blanqueamiento</option>
+            <option value="Bandas Intermaxilares">Bandas Intermaxilares</option>
+            <option value="Control Metálicos">Control Metálicos</option>
+            <option value="Control Cerámicos">Control Cerámicos</option>
+            <option value="Control Zafiro/autoligable">Control Zafiro/autoligable</option>
+            <option value="Control Ortopedia">Control Ortopedia</option>
+            <option value="Control tratamiento abandonado">Control tratamiento abandonado</option>
+            <option value="contencion fija">Contención Fija</option>
+            <option value="contencion removible">Contención Removible</option>
+            <option value="Corona">Corona</option>
+            <option value="Cementado de corona">Cementado de Corona</option>
+            <option value="Destape Implante">Destape Implante</option>
+            <option value="Debe">Debe</option>
+            <option value="Extracción">Extracción</option>
+            <option value="Endodoncia">Endodoncia</option>
+            <option value="Implante">Implante</option>
+            <option value="Limpieza Inferior/superior">Limpieza Inferior/superior</option>
+            <option value="Limpieza completa">Limpieza completa</option>
+            <option value="Primera consulta">Primera consulta</option>
+            <option value="Perno">Perno</option>
+            <option value="Placa Hawley"> Placa Hawley</option>
+            <option value="pagó parte efectivo">pagó parte efectivo</option>
+            <option value="pagó parte débito">pagó parte débito</option>
+            <option value="pagó debia">pagó debia</option>
+            <option value="pagó cuota">pagó cuota</option>
+            <option value="Protesis">Protesis</option>
+            <option value="Placa de bruxismo">Placa de bruxismo</option>
+            <option value="Retiro Inf/sup">Retiro Inf/sup</option>
+            <option value="Retiro completo">Retiro completo</option>
+            
+            <option value="Reposición Metálica">Reposición Metálica</option>
+            <option value="Reposicion Cerámica">Reposicion Cerámica</option>
+            <option value="Reposicion zafiro">Reposicion zafiro</option>
+            <option value="Reposicion Slim">Reposicion Slim</option>
+            <option value="Reposición tubo">Reposición tubo</option>
+            <option value="Reposición botón">Reposición botón</option>
+            <option value="Radiografia periapical">Radiografia periapical</option>
+            <option value="TDI">TDI</option>
+            <option value="Urgencia">Urgencia</option> 
+            <option value="Ya abonó adelantado">Ya abonó adelantado</option>           
+        </select>
+    </div>
+    
+
+
+    <div class="form-group">
+        <label for="operationValue">Valor:</label>
+        <input type="number" id="operationValue" tabindex="5">
+    </div>
+
+    <div class="form-group">
+        <label for="paymentMethod">Forma de Pago:</label>
+        <select id="paymentMethod" tabindex="6">
+            <option value="efectivo">Efectivo</option>
+            <option value="debito">Débito</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="commission">Comisión:</label>
+        <input type="number" id="commission" tabindex="7">
+    </div>
     
     <script src="script.js"></script>
 </body>

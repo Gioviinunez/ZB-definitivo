@@ -16,30 +16,48 @@ document.getElementById('professional').addEventListener('change', function() {
 
 // Agregar Paciente
 document.getElementById('addPatient').addEventListener('click', function() {
-    const name = document.getElementById('patientName').value;
-    const operation = document.getElementById('operationType').value;
-    const value = document.getElementById('operationValue').value;
-    const paymentMethod = document.getElementById('paymentMethod').value;
-    const commission = document.getElementById('commission').value;
+    const name = document.getElementById('patientName').value || ''; // Si está vacío, asignar cadena vacía
+    const operation = document.getElementById('operationType').value || ''; // Si está vacío, asignar cadena vacía
+    const value = parseFloat(document.getElementById('operationValue').value) || 0; // Si está vacío o no es número, asignar 0
+    const paymentMethod = document.getElementById('paymentMethod').value || 'Efectivo'; // Valor por defecto "Efectivo"
+    const commission = parseFloat(document.getElementById('commission').value) || 0; // Si está vacío o no es número, asignar 0
 
-    if (name && operation && value && paymentMethod && commission) {
-        const patient = {
-            name, operation, value: parseFloat(value), paymentMethod, commission: parseFloat(commission)
-        };
-        patients.push(patient);
-        localStorage.setItem(currentProfessional, JSON.stringify(patients));
-        renderPatients();
-    } else {
-        alert('Por favor complete todos los campos.');
-    }
+    // Crear el paciente con los valores ingresados o por defecto
+    const patient = {
+        name,
+        operation,
+        value,
+        paymentMethod,
+        commission
+    };
+
+    // Agregar al array de pacientes
+    patients.push(patient);
+
+    // Guardar en localStorage
+    localStorage.setItem(currentProfessional, JSON.stringify(patients));
+
+    // Actualizar la tabla
+    renderPatients();
+
+    // Limpiar los campos del formulario
+    document.getElementById('patientName').value = '';
+    document.getElementById('operationType').value = '';
+    document.getElementById('operationValue').value = '';
+    document.getElementById('paymentMethod').value = 'Efectivo';
+    document.getElementById('commission').value = '';
 });
 
 // Borrar Paciente
 document.getElementById('deletePatient').addEventListener('click', function() {
     const patientName = prompt('Ingrese el nombre del paciente a borrar:');
-    patients = patients.filter(patient => patient.name !== patientName);
-    localStorage.setItem(currentProfessional, JSON.stringify(patients));
-    renderPatients();
+    if (patientName) {
+        patients = patients.filter(patient => patient.name !== patientName);
+        localStorage.setItem(currentProfessional, JSON.stringify(patients));
+        renderPatients();
+    } else {
+        alert('Debe ingresar un nombre válido.');
+    }
 });
 
 // Mostrar Pacientes en la Tabla
@@ -48,13 +66,14 @@ function renderPatients() {
     tbody.innerHTML = ''; // Limpiar tabla
     patients.forEach(patient => {
         const row = tbody.insertRow();
-        row.insertCell(0).textContent = patient.name;
-        row.insertCell(1).textContent = patient.operation;
-        row.insertCell(2).textContent = patient.value;
-        row.insertCell(3).textContent = patient.paymentMethod;
-        row.insertCell(4).textContent = patient.commission;
+        row.insertCell(0).textContent = patient.name || 'N/A'; // Mostrar "N/A" si el campo está vacío
+        row.insertCell(1).textContent = patient.operation || 'N/A';
+        row.insertCell(2).textContent = patient.value.toFixed(2); // Formatear con dos decimales
+        row.insertCell(3).textContent = patient.paymentMethod || 'Efectivo';
+        row.insertCell(4).textContent = patient.commission.toFixed(2);
     });
 }
+
 
 // Función para guardar gasto
 document.getElementById('add-expense').addEventListener('click', function() {
@@ -481,7 +500,36 @@ function renderPatients() {
             nameCell.appendChild(nameInput);
 
             // Mostrar operación
-            row.insertCell(2).textContent = operation.operation || ''; // Mostrar operación
+            const operationCell = row.insertCell(2);
+            const operationSelect = document.createElement('select'); // Crear un select
+            const operationsList = [
+                "Ajuste", "Ausente", "A favor", "Armado sup / inf", "Arreglo", "Aparato de ortopedia",
+                "Brackets metalicos", "Brackets ceramicos", "Brackets Slim", "Brackets Zafiro",
+                "Brackets Autoligables metalicos", "Bucodental", "Blanqueamiento", "Bandas Intermaxilares",
+                "Control Metálicos", "Control Cerámicos", "Control Zafiro/autoligable", "Control Ortopedia",
+                "Control tratamiento abandonado", "Contención Fija", "Contención Removible", "Corona",
+                "Cementado de Corona", "Destape Implante", "Debe", "Extracción", "Endodoncia", "Implante",
+                "Limpieza Inferior/superior", "Limpieza completa", "Primera consulta", "Perno", "Placa Hawley",
+                "pagó parte efectivo", "pagó parte débito", "pagó debia", "pagó cuota", "Protesis",
+                "Placa de bruxismo", "Retiro Inf/sup", "Retiro completo", "Reposición Metálica", "Reposicion Cerámica",
+                "Reposicion zafiro", "Reposicion Slim", "Reposición tubo", "Reposición botón", "Radiografia periapical",
+                "TDI", "Urgencia", "Ya abonó adelantado"
+            ]; // Todas las opciones disponibles
+
+            // Crear las opciones en el select
+            operationsList.forEach(op => {
+                const option = document.createElement('option');
+                option.value = op;
+                option.textContent = op;
+                if (operation.operation === op) {
+                    option.selected = true; // Seleccionar la opción actual
+                }
+                operationSelect.appendChild(option);
+            });
+
+            operationSelect.disabled = true; // Inicialmente deshabilitado
+            operationSelect.classList.add('editable-operation'); // Añadir clase para identificar
+            operationCell.appendChild(operationSelect);
 
             // Mostrar valor editable
             const valueCell = row.insertCell(3);
@@ -501,12 +549,17 @@ function renderPatients() {
             paymentDisplay.onclick = () => togglePaymentMethod(operation, paymentDisplay);
 
             // Mostrar comisión
-            row.insertCell(5).textContent = operation.commission.toFixed(2); // Mostrar comisión con dos decimales
+            const commissionCell = row.insertCell(5);
+            const commissionInput = document.createElement('input');
+            commissionInput.value = operation.commission.toFixed(2); // Mostrar la comisión con dos decimales
+            commissionInput.disabled = true; // Inicialmente deshabilitado
+            commissionInput.classList.add('editable-commission'); // Añadir clase para identificar
+            commissionCell.appendChild(commissionInput);
 
             // Crear botón de "Editar"
             const editButton = document.createElement('button');
             editButton.textContent = 'Editar'; // Cambiar a 'Editar'
-            editButton.onclick = () => toggleEditMode(row, operations, nameInput, valueInput); // Llamar a la función de habilitar edición
+            editButton.onclick = () => toggleEditMode(row, operations, nameInput, valueInput, commissionInput, operationSelect); // Añadir operationSelect
             row.insertCell(6).appendChild(editButton); // Agregar botón a la celda
 
             // Crear botón para borrar operación
@@ -517,6 +570,7 @@ function renderPatients() {
         });
     }
 }
+
 
 // Función para cambiar entre Efectivo y Débito
 function togglePaymentMethod(operation, paymentDisplay) {
@@ -534,35 +588,50 @@ function togglePaymentMethod(operation, paymentDisplay) {
     localStorage.setItem(currentProfessional, JSON.stringify(patients));
 }
 
-// Función para habilitar/deshabilitar los campos de nombre y valor
-function toggleEditMode(row, operations, nameInput, valueInput) {
-    // Cambiar el estado de los campos de texto
+// Función para habilitar/deshabilitar los campos de nombre, valor, comisión y operación
+function toggleEditMode(row, operations, nameInput, valueInput, commissionInput, operationSelect) {
     if (nameInput.disabled) {
+        // Habilitar edición
         nameInput.disabled = false;
         valueInput.disabled = false;
+        commissionInput.disabled = false;
+        operationSelect.disabled = false; // Habilitar el campo de operación
         row.getElementsByTagName('button')[0].textContent = 'Guardar'; // Cambiar texto del botón a "Guardar"
     } else {
         // Si se guarda, actualizar los valores
         const newName = nameInput.value;
         const newValue = parseFloat(valueInput.value);
+        const newCommission = parseFloat(commissionInput.value); // Obtener nuevo valor de comisión
+        const newOperation = operationSelect.value; // Obtener la nueva operación
 
         if (newName !== operations[0].name) {
-            operations.forEach(op => op.name = newName); // Actualizar el nombre de todos los registros
+            operations.forEach(op => op.name = newName); // Actualizar el nombre en todas las operaciones del paciente
         }
 
-        if (newValue !== operations[0].value) {
-            operations.forEach(op => op.value = newValue); // Actualizar el valor de todos los registros
+        if (!isNaN(newValue) && newValue !== operations[0].value) {
+            operations.forEach(op => op.value = newValue); // Actualizar el valor de todas las operaciones
+        }
+
+        if (!isNaN(newCommission) && newCommission !== operations[0].commission) {
+            operations.forEach(op => op.commission = newCommission); // Actualizar la comisión en todas las operaciones
+        }
+
+        if (newOperation !== operations[0].operation) {
+            operations.forEach(op => op.operation = newOperation); // Actualizar la operación en todas las operaciones
         }
 
         // Guardar cambios en localStorage
         localStorage.setItem(currentProfessional, JSON.stringify(patients));
 
-        // Cambiar el estado de los campos
+        // Deshabilitar edición
         nameInput.disabled = true;
         valueInput.disabled = true;
+        commissionInput.disabled = true;
+        operationSelect.disabled = true; // Deshabilitar el campo de operación
         row.getElementsByTagName('button')[0].textContent = 'Editar'; // Cambiar texto del botón a "Editar"
     }
 }
+
 
 // Función para borrar una operación
 function deleteOperation(index) {
